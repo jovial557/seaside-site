@@ -1,0 +1,1799 @@
+/* ==============================
+   RESET
+============================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+body {
+  background: #389CDF;
+}
+
+
+/* ==============================
+   MAIN PAGE
+============================== */
+
+.page {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: #1f4f7a;
+
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+
+  width: min(
+    calc(100vw - 48px),
+    calc((100vh - 48px) * 16 / 9)
+  );
+
+  aspect-ratio: 16 / 9;
+
+  max-height: calc(100vh - 48px);
+
+  overflow: hidden;
+
+  flex-shrink: 0;
+}
+
+.background-video {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+
+  z-index: 0;
+}
+
+/* ==============================
+   DIGITAL CLOCK
+============================== */
+
+.digital-clock {
+  position: fixed;
+
+  top: 24px;
+  left: 24px;
+
+  z-index: 2100;
+
+  min-width: 160px;
+
+  padding: 10px 14px;
+
+  border: 1.5px solid rgba(255, 250, 240, 0.95);
+  border-radius: 14px;
+
+  background: rgba(5, 19, 77, 0.55);
+
+  color: #fffaf0;
+
+  font-family: "Coming Soon", cursive;
+  font-size: 18px;
+
+  letter-spacing: 0.08em;
+
+  text-align: center;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  pointer-events: none;
+}
+
+
+/* ==============================
+   SOUND TOGGLE
+============================== */
+
+.sound-toggle {
+  position: fixed;
+
+  top: 24px;
+  right: 24px;
+
+  z-index: 2100;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255, 250, 238, 0.92);
+
+  color: #30507E;
+
+  font-family: "Coming Soon", cursive;
+  font-size: 24px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 12px rgba(5, 19, 77, 0.14);
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.sound-toggle:hover {
+  transform: rotate(6deg);
+
+  background: #fffaf0;
+}
+
+.sound-toggle:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.sound-on-icon,
+.sound-off-icon {
+  position: absolute;
+}
+
+.sound-off-icon::after {
+  content: "";
+
+  position: absolute;
+
+  width: 28px;
+  height: 2px;
+
+  left: 50%;
+  top: 50%;
+
+  background: #30507E;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(-45deg);
+}
+
+.sound-on-icon {
+  display: none;
+}
+
+.sound-off-icon {
+  display: block;
+}
+
+.sound-toggle.is-playing .sound-on-icon {
+  display: block;
+}
+
+.sound-toggle.is-playing .sound-off-icon {
+  display: none;
+}
+
+.sound-hint {
+  position: absolute;
+  top: 17px;
+  right: 65px; /* places it just to the left of the audio icon */
+  margin: 0;
+  font-family: "Coming Soon", cursive;
+  font-size: 12px;
+  color: #fffdf7;
+  white-space: nowrap;
+  z-index: 30;
+  pointer-events: none;
+}
+
+
+/* ==============================
+   SIDE MENU BUTTON
+============================== */
+
+.menu-toggle {
+  position: fixed;
+
+  top: 84px;
+  right: 20px;
+
+  z-index: 2100;
+
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+  box-shadow: none;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease;
+}
+
+.menu-toggle img {
+  display: block;
+
+  width: 108%;
+  height: 108%;
+
+  object-fit: contain;
+
+  pointer-events: none;
+}
+
+.menu-toggle:hover {
+  transform: scale(1.06);
+}
+
+.menu-toggle:focus-visible {
+  outline: none;
+}
+
+
+/* ==============================
+   SLIDE MENU
+============================== */
+
+.slide-menu {
+  position: fixed;
+
+  top: 160px;
+  right: 24px;
+
+  z-index: 2090;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 10px;
+
+  opacity: 0;
+
+  transform:
+    translateY(-10px)
+    scale(0.96);
+
+  transform-origin: top right;
+
+  pointer-events: none;
+
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.slide-menu.is-open {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  pointer-events: auto;
+}
+
+.slide-menu-link {
+  text-decoration: none;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.linkedin-link {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1.5px solid #fffaf0;
+  border-radius: 50%;
+
+  background: rgba(5, 19, 77, 0.7);
+
+  color: #fffaf0;
+
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.portfolio-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 18px;
+
+  border: 1.5px solid #fffaf0;
+  border-radius: 999px;
+
+  background: rgba(5, 19, 77, 0.7);
+
+  color: #fffaf0;
+
+  font-family: "Coming Soon", cursive;
+  font-size: 15px;
+
+  white-space: nowrap;
+}
+
+.linkedin-link:hover,
+.portfolio-link:hover {
+  transform:
+    translateY(-2px)
+    rotate(-2deg);
+
+  background: rgba(5, 19, 77, 0.9);
+}
+
+
+/* ==============================
+   INTERACTIVE LAYER
+============================== */
+
+.interactive-layer {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 10;
+
+  pointer-events: none;
+}
+
+
+/* ==============================
+   INTERACTIVE OBJECTS
+============================== */
+
+.interactive-object {
+  position: absolute;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+  background: transparent;
+
+  cursor: pointer;
+
+  pointer-events: auto;
+}
+
+.interactive-object img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  pointer-events: none;
+
+  transition:
+    filter 160ms ease,
+    transform 160ms ease;
+}
+
+.interactive-object:hover img,
+.interactive-object:focus-visible img {
+  filter:
+    drop-shadow(2px 0 0 #ffffff)
+    drop-shadow(-2px 0 0 #ffffff)
+    drop-shadow(0 2px 0 #ffffff)
+    drop-shadow(0 -2px 0 #ffffff);
+}
+
+.interactive-object:focus-visible {
+  outline: none;
+}
+
+
+/* ==============================
+   OBJECT POSITIONS
+============================== */
+
+.shop-sign {
+  left: 33%;
+  top: 66%;
+  width: 9%;
+}
+
+.cooler {
+  left: 40%;
+  top: 71%;
+  width: 13%;
+}
+
+.bottle-box {
+  left: 65.5%;
+  top: 68%;
+  width: 14%;
+}
+
+
+/* TV ON STOOL */
+
+.tv-object {
+  left: 77.3%;
+  top: 69%;
+  width: 5%;
+}
+
+
+/* ==============================
+   INTRO POPUP
+============================== */
+
+.welcome-popup {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(5, 19, 77, 0.18);
+
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.popup-position {
+  transform: translate(5%, 2%);
+}
+
+.popup-card {
+  position: relative;
+
+  width: min(820px, 90vw);
+
+  animation: popupEnter 450ms ease-out;
+}
+
+.popup-message {
+  display: block;
+
+  width: 85%;
+  height: auto;
+
+  user-select: none;
+}
+
+
+/* ==============================
+   INTRO BUTTON
+============================== */
+
+.popup-action {
+  position: absolute;
+
+  left: 68%;
+  bottom: 15%;
+
+  width: 30%;
+
+  transform: translateX(-50%);
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+  background: transparent;
+
+  cursor: pointer;
+
+  z-index: 20;
+}
+
+.popup-action img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  pointer-events: none;
+
+  transform: rotate(0deg);
+
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+.popup-action:hover img {
+  transform:
+    rotate(5deg)
+    translateY(-2px);
+
+  filter:
+    drop-shadow(0 7px 8px rgba(0, 0, 0, 0.14));
+}
+
+
+/* ==============================
+   GIFT POPUP
+============================== */
+
+.gift-popup {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1100;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(5, 19, 77, 0.18);
+
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.gift-stage {
+  position: relative;
+
+  width: min(760px, 88vw);
+
+  animation: giftEnter 400ms ease-out;
+}
+
+.gift-tray {
+  display: block;
+
+  width: 105%;
+  height: auto;
+}
+
+.gift-item {
+  position: absolute;
+
+  left: 50%;
+  top: 49%;
+
+  width: 45%;
+
+  transform: translate(-50%, -50%);
+
+  height: auto;
+
+  pointer-events: none;
+}
+
+
+/* ==============================
+   MESSAGE BOTTLE
+============================== */
+
+.gift-note-bottle {
+  position: absolute;
+
+  right: 8%;
+  top: 28%;
+
+  width: 24%;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.gift-note-bottle img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  transform-origin: center;
+
+  animation:
+    bottleNudge
+    4s
+    ease-in-out
+    infinite;
+
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+@keyframes bottleNudge {
+
+  0%,
+  82%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  86% {
+    transform: rotate(-6deg);
+  }
+
+  90% {
+    transform: rotate(6deg);
+  }
+
+  94% {
+    transform: rotate(-4deg);
+  }
+
+  97% {
+    transform: rotate(2deg);
+  }
+
+}
+
+.gift-note-bottle:hover img,
+.gift-note-bottle:focus-visible img {
+  animation: none;
+
+  transform:
+    translateY(-4px)
+    rotate(6deg)
+    scale(1.03);
+
+  filter:
+    drop-shadow(
+      0 8px 10px
+      rgba(0, 0, 0, 0.16)
+    );
+}
+
+/* ==============================
+   GIFT POPUP CONTENT
+============================== */
+
+.gift-popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+/* ==============================
+   GIFT GO BACK BUTTON
+============================== */
+
+.gift-back-button {
+  margin-top: 4px;
+
+  padding: 10px 22px;
+
+  border: 1.5px solid #fffaf0;
+  border-radius: 999px;
+
+  background: rgba(5, 19, 77, 0.45);
+
+  color: #fffaf0;
+
+  font-family: "Coming Soon", cursive;
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.gift-back-button:hover {
+  transform:
+    translateY(-2px)
+    rotate(-1deg);
+
+  background: rgba(5, 19, 77, 0.7);
+}
+
+/* ==============================
+   NOTE POPUP
+============================== */
+
+.note-popup {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1200;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(5, 19, 77, 0.18);
+
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.note-card {
+  position: relative;
+
+  width: min(720px, 88vw);
+
+  transform: translate(5%, 2%);
+
+  animation: noteEnter 350ms ease-out;
+}
+
+.note-paper {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  user-select: none;
+}
+
+.note-content {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 14% 15% 11%;
+
+  text-align: center;
+
+  color: #30507E;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  letter-spacing: 0.07em;
+}
+
+.note-message {
+  margin: 0;
+
+  max-width: 520px;
+
+  font-size:
+    clamp(
+      19px,
+      2.2vw,
+      30px
+    );
+
+  line-height: 1.65;
+}
+
+.note-signature {
+  margin: 22px 0 0;
+
+  font-size:
+    clamp(
+      15px,
+      1.6vw,
+      21px
+    );
+}
+
+.note-actions {
+  display: flex;
+  justify-content: center;
+
+  gap: 16px;
+
+  margin-top: 34px;
+}
+
+.note-button {
+  padding: 11px 20px;
+
+  border:
+    1.5px solid
+    #30507E;
+
+  border-radius: 999px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.28
+    );
+
+  color: #30507E;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.note-button:hover {
+  transform: rotate(2deg);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.65
+    );
+}
+
+
+/* ==============================
+   ABOUT SHOP
+============================== */
+
+.about-popup {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1400;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background:
+    rgba(
+      5,
+      19,
+      77,
+      0.18
+    );
+
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.about-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width:
+    min(
+      500px,
+      82vw
+    );
+
+  animation:
+    aboutEnter
+    350ms
+    ease-out;
+}
+
+.about-board {
+  display: block;
+
+  width: auto;
+  max-width: 100%;
+
+  height: auto;
+  max-height: 78vh;
+
+  object-fit: contain;
+}
+
+.about-back-button {
+  margin-top: 10px;
+
+  padding: 10px 22px;
+
+  border:
+    1.5px solid
+    #fffaf0;
+
+  border-radius: 999px;
+
+  background:
+    rgba(
+      5,
+      19,
+      77,
+      0.45
+    );
+
+  color: #fffaf0;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.about-back-button:hover {
+  transform:
+    translateY(-2px)
+    rotate(-2deg);
+
+  background:
+    rgba(
+      5,
+      19,
+      77,
+      0.7
+    );
+}
+
+
+/* ==============================
+   TV POPUP
+============================== */
+
+.tv-popup {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1450;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(
+      5,
+      19,
+      77,
+      0.18
+    );
+
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+
+/* Popup layout */
+
+.tv-popup-content {
+  width:
+    min(
+      580px,
+      90vw
+    );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 10px;
+
+  animation:
+    tvEnter
+    350ms
+    ease-out;
+}
+
+
+/* ==============================
+   TV IMAGE
+============================== */
+
+.tv-stage {
+  position: relative;
+
+  width: min(580px, 82vw);
+
+  display: flex;
+  justify-content: center;
+}
+
+.tv-screen-image {
+  position: relative;
+
+  display: block;
+
+  width: 120%;
+  height: auto;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+
+/* ==============================
+   VIDEO INSIDE TV SCREEN
+============================== */
+
+.tv-video-window {
+  position: absolute;
+
+  /*
+    Fits over the gray glass area
+    of tv-screen.png
+  */
+
+  left: 7%;
+  top: 21%;
+  width: 69%;
+  height: 59%;
+
+  z-index: 3;
+
+  overflow: hidden;
+
+  border-radius: 16%;
+
+  background: #111;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tv-video-window iframe,
+.tv-video-window video {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+
+  object-fit: cover;
+}
+
+.tv-placeholder {
+  padding: 12px;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-family: "Coming Soon", cursive;
+  font-size: 13px;
+
+  text-align: center;
+}
+
+
+/* ==============================
+   TV CONTROLS
+============================== */
+
+.tv-controls {
+  width:
+    min(
+      470px,
+      82vw
+    );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.tv-url-label {
+  color: #fffaf0;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 16px;
+}
+
+.tv-url-row {
+  width: 100%;
+
+  display: flex;
+
+  gap: 8px;
+}
+
+.tv-url-input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 10px 14px;
+
+  border:
+    1.5px solid
+    #fffaf0;
+
+  border-radius: 999px;
+
+  background:
+    rgba(
+      255,
+      250,
+      240,
+      0.94
+    );
+
+  color: #30507E;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.tv-url-input::placeholder {
+  color:
+    rgba(
+      48,
+      80,
+      126,
+      0.5
+    );
+}
+
+.tv-url-input:focus {
+  background: #fffaf0;
+}
+
+
+/* Buttons */
+
+.tv-play-button,
+.tv-pause-button,
+.tv-back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 18px;
+
+  border: 1.5px solid #fffaf0;
+  border-radius: 999px;
+
+  font-family: "Coming Soon", cursive;
+  font-size: 15px;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.tv-play-button {
+  background: #fffaf0;
+  color: #30507E;
+}
+
+.tv-pause-button {
+  background: rgba(5, 19, 77, 0.45);
+  color: #fffaf0;
+}
+
+.tv-back-button {
+  background: rgba(5, 19, 77, 0.45);
+  color: #fffaf0;
+}
+
+.tv-play-button:hover,
+.tv-pause-button:hover,
+.tv-back-button:hover {
+  transform:
+    translateY(-2px)
+    rotate(-1deg);
+}
+
+
+/* Error */
+
+.tv-error {
+  min-height: 18px;
+
+  margin: 0;
+
+  color: #fffaf0;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 12px;
+
+  text-align: center;
+}
+
+
+/* ==============================
+   LEAVE POPUP
+============================== */
+
+.leave-popup {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1300;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background:
+    rgba(
+      5,
+      19,
+      77,
+      0.18
+    );
+
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.leave-panel {
+  width:
+    min(
+      1000px,
+      94vw
+    );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+
+  margin: 0 auto;
+}
+
+
+/* ==============================
+   MENU BOARD
+============================== */
+
+.shelf-stage {
+  position: relative;
+
+  width:
+    min(
+      900px,
+      88vw
+    );
+
+  display: flex;
+  justify-content: center;
+}
+
+.shelves-image {
+  display: block;
+
+  width: 90%;
+  height: auto;
+
+  margin: 0 auto;
+}
+
+
+/* ==============================
+   MENU ITEMS
+============================== */
+
+.menu-items {
+  position: absolute;
+
+  left: 50%;
+  top: 23%;
+
+  transform:
+    translateX(-50%);
+
+  width: 70%;
+  height: 40%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  grid-template-rows:
+    repeat(3, 1fr);
+
+  align-items: center;
+  justify-items: center;
+
+  column-gap: 11%;
+  row-gap: 0;
+
+  z-index: 10;
+}
+
+.shelf-item {
+  width: 120%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.shelf-item img {
+  display: block;
+
+  max-width: 82%;
+  max-height: 82%;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+.shelf-item:hover img {
+  transform:
+    translateY(-10px)
+    scale(1.03);
+}
+
+.shelf-item.is-selected img {
+  transform:
+    translateY(-10px)
+    scale(1.08);
+
+  filter:
+    drop-shadow(
+      4px 0 0
+      #ffffff
+    )
+    drop-shadow(
+      -4px 0 0
+      #ffffff
+    )
+    drop-shadow(
+      0 4px 0
+      #ffffff
+    )
+    drop-shadow(
+      0 -4px 0
+      #ffffff
+    )
+    drop-shadow(
+      0 0 14px
+      rgba(
+        255,
+        255,
+        255,
+        0.95
+      )
+    );
+}
+
+
+/* ==============================
+   LEAVE MESSAGE
+============================== */
+
+.leave-message {
+  width:
+    min(
+      520px,
+      82vw
+    );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 2px;
+}
+
+.leave-message-label {
+  color: #fffaf0;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 16px;
+}
+
+.leave-message-input {
+  width: 100%;
+  min-height: 72px;
+
+  padding: 12px 16px;
+
+  resize: none;
+
+  border:
+    1.5px solid
+    rgba(
+      255,
+      250,
+      240,
+      0.9
+    );
+
+  border-radius: 18px;
+
+  background:
+    rgba(
+      255,
+      250,
+      240,
+      0.9
+    );
+
+  color: #30507E;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 16px;
+
+  line-height: 1.5;
+
+  outline: none;
+}
+
+.leave-message-input:focus {
+  background: #fffaf0;
+
+  border-color: #ffffff;
+}
+
+.leave-message-hint {
+  margin: 0;
+
+  color:
+    rgba(
+      255,
+      250,
+      240,
+      0.7
+    );
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 12px;
+}
+
+
+/* ==============================
+   LEAVE ACTIONS
+============================== */
+
+.leave-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+
+  width: 100%;
+
+  margin-top: -4px;
+}
+
+.later-button,
+.order-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: auto;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  font-family:
+    "Coming Soon",
+    cursive;
+
+  font-size: 17px;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.later-button {
+  color: #fffaf0;
+
+  border:
+    1.5px solid
+    rgba(
+      255,
+      250,
+      240,
+      0.85
+    );
+
+  background:
+    rgba(
+      5,
+      19,
+      77,
+      0.35
+    );
+}
+
+.order-button {
+  border:
+    1.5px solid
+    #fffaf0;
+
+  background: #fffaf0;
+
+  color: #30507E;
+}
+
+.order-button:disabled {
+  opacity: 0.35;
+
+  cursor: default;
+}
+
+.order-button:not(:disabled) {
+  opacity: 1;
+}
+
+.order-button:not(:disabled):hover,
+.later-button:hover {
+  transform:
+    translateY(-2px);
+}
+
+
+/* ==============================
+   ANIMATIONS
+============================== */
+
+@keyframes popupEnter {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(12px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+@keyframes giftEnter {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(12px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+@keyframes noteEnter {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+@keyframes aboutEnter {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(10px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+@keyframes tvEnter {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(10px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width: 700px) {
+
+  .digital-clock {
+    top: 14px;
+    left: 14px;
+
+    min-width: 130px;
+
+    font-size: 15px;
+  }
+
+  .sound-toggle {
+    top: 14px;
+    right: 14px;
+  }
+
+  .menu-toggle {
+    top: 74px;
+    right: 14px;
+  }
+
+  .slide-menu {
+    top: 145px;
+    right: 14px;
+  }
+
+  .tv-popup-content {
+    width: 92vw;
+  }
+
+  .tv-stage {
+    width: 86vw;
+  }
+
+  .shelf-stage {
+    width: 96vw;
+  }
+
+  .menu-items {
+    width: 74%;
+  }
+
+}
+
+
+/* ==============================
+   REDUCED MOTION
+============================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .popup-card,
+  .gift-stage,
+  .about-card,
+  .tv-popup-content,
+  .gift-note-bottle img,
+  .shelf-item img,
+  .slide-menu {
+    animation: none;
+    transition: none;
+  }
+
+}

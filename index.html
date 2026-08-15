@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Space Bunny's Seaside Shop</title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Coming+Soon&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  />
+
+  <script
+    src="script.js"
+    defer
+  ></script>
+</head>
+
+
+<body>
+
+  <!-- =========================
+       MAIN SITE
+  ========================== -->
+
+  <main class="page">
+
+    <div class="scene">
+
+
+      <!-- =========================
+           BACKGROUND MUSIC
+      ========================== -->
+
+      <audio
+        id="backgroundBgm"
+        loop
+      >
+        <source
+          src="assets/background-bgm.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
+
+
+      <!-- =========================
+           DIGITAL CLOCK
+      ========================== -->
+
+      <div
+        class="digital-clock"
+        id="digitalClock"
+        aria-label="Current local time"
+      ></div>
+
+
+      <!-- =========================
+           SOUND TOGGLE
+      ========================== -->
+
+      <button
+        class="sound-toggle"
+        id="soundToggle"
+        type="button"
+        aria-label="Turn sound on"
+        aria-pressed="false"
+      >
+
+        <span
+          class="sound-on-icon"
+          aria-hidden="true"
+        >
+          ♪
+        </span>
+
+        <span
+          class="sound-off-icon"
+          aria-hidden="true"
+        >
+          ♪
+        </span>
+
+        <p class="sound-hint">it's better with sound!</p>
+
+      </button>
+
+
+      <!-- =========================
+           SIDE MENU BUTTON
+      ========================== -->
+
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open links menu"
+        aria-expanded="false"
+      >
+        <img
+          src="assets/menu-icon.png"
+          alt=""
+        />
+      </button>
+
+
+      <!-- =========================
+           SLIDE-OUT LINKS
+      ========================== -->
+
+      <div
+        class="slide-menu"
+        id="slideMenu"
+        aria-hidden="true"
+      >
+
+        <a
+          class="slide-menu-link linkedin-link"
+          href="https://www.linkedin.com/in/kokonaakatsu"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open LinkedIn"
+        >
+          in
+        </a>
+
+        <a
+          class="slide-menu-link portfolio-link"
+          href="https://konatsukoko.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          my portfolio
+        </a>
+
+      </div>
+
+
+      <!-- =========================
+           BACKGROUND VIDEO
+      ========================== -->
+
+      <video
+        class="background-video"
+        autoplay
+        muted
+        loop
+        playsinline
+      >
+
+        <source
+          src="assets/background.mp4"
+          type="video/mp4"
+        />
+
+      </video>
+
+
+      <!-- =========================
+           INTERACTIVE OBJECTS
+      ========================== -->
+
+      <div class="interactive-layer">
+
+
+        <!-- Shop Sign -->
+
+        <button
+          class="interactive-object shop-sign"
+          id="shopSignButton"
+          type="button"
+          aria-label="About the seaside shop"
+        >
+          <img
+            src="assets/shop-sign.svg"
+            alt=""
+          />
+        </button>
+
+
+        <!-- Cooler -->
+
+        <button
+          class="interactive-object cooler"
+          id="coolerButton"
+          type="button"
+          aria-label="Open your gift tray again"
+        >
+          <img
+            src="assets/cooler.svg"
+            alt=""
+          />
+        </button>
+
+
+        <!-- Message Bottle Box -->
+
+        <button
+          class="interactive-object bottle-box"
+          id="messageBottleBoxButton"
+          type="button"
+          aria-label="Leave something for the next visitor"
+        >
+          <img
+            src="assets/message-bottle-box.svg"
+            alt=""
+          />
+        </button>
+
+
+        <!-- TV -->
+
+        <button
+          class="interactive-object tv-object"
+          id="tvButton"
+          type="button"
+          aria-label="Open the seaside TV"
+        >
+          <img
+            src="assets/tv.svg"
+            alt=""
+          />
+        </button>
+
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+
+  <!-- =========================
+       INTRO POPUP
+  ========================== -->
+
+  <div
+    class="welcome-popup"
+    id="welcomePopup"
+  >
+
+    <div class="popup-position">
+
+      <div class="popup-card">
+
+        <img
+          class="popup-message"
+          src="assets/popup-message.png"
+          alt="You found the seaside shop. Someone was here before you and left something on the tray."
+        />
+
+        <button
+          class="popup-action"
+          id="seeGiftButton"
+          type="button"
+          aria-label="See what they left"
+        >
+          <img
+            src="assets/see-what-they-left-button.svg"
+            alt=""
+          />
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+     GIFT TRAY
+========================== -->
+
+<div
+  class="gift-popup"
+  id="giftPopup"
+>
+
+  <div class="gift-popup-content">
+
+    <div class="gift-stage">
+
+      <img
+        class="gift-tray"
+        src="assets/tray.png"
+        alt="Wooden tray"
+      />
+
+      <img
+        class="gift-item"
+        id="giftItem"
+        src="assets/stingray-omelette.png"
+        alt="Stingray omelette"
+      />
+
+      <button
+        class="gift-note-bottle"
+        id="giftNoteBottle"
+        type="button"
+        aria-label="Read the message left for you"
+      >
+        <img
+          src="assets/message-in-bottle.png"
+          alt=""
+        />
+      </button>
+
+    </div>
+
+
+    <!-- GO BACK -->
+
+    <button
+      class="gift-back-button"
+      id="giftBackButton"
+      type="button"
+    >
+      exit
+    </button>
+
+  </div>
+
+</div>
+
+
+
+  <!-- =========================
+       MESSAGE NOTE
+  ========================== -->
+
+  <div
+    class="note-popup"
+    id="notePopup"
+  >
+
+    <div class="note-card">
+
+      <img
+        class="note-paper"
+        src="assets/paper.png"
+        alt=""
+      />
+
+      <div class="note-content">
+
+        <p
+          class="note-message"
+          id="noteMessage"
+        >
+          I hope something unexpectedly nice happens to you today.
+        </p>
+
+        <p class="note-signature">
+          — a wanderer
+        </p>
+
+        <div class="note-actions">
+
+          <button
+            class="note-button"
+            id="wanderButton"
+            type="button"
+          >
+            wander around
+          </button>
+
+          <button
+            class="note-button"
+            id="leaveOneButton"
+            type="button"
+          >
+            leave one too
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       ABOUT SHOP
+  ========================== -->
+
+  <div
+    class="about-popup"
+    id="aboutPopup"
+  >
+
+    <div class="about-card">
+
+      <img
+        class="about-board"
+        src="assets/about-shop.png"
+        alt="About the seaside shop"
+      />
+
+      <button
+        class="about-back-button"
+        id="aboutBackButton"
+        type="button"
+      >
+        go back
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       TV POPUP
+  ========================== -->
+
+  <div
+    class="tv-popup"
+    id="tvPopup"
+  >
+
+    <div class="tv-popup-content">
+
+
+      <!-- TV -->
+
+      <div class="tv-stage">
+
+        <img
+          class="tv-screen-image"
+          src="assets/tv-screen.png"
+          alt="Seaside television"
+        />
+
+
+        <!-- Actual video -->
+
+        <div
+          class="tv-video-window"
+          id="tvVideoWindow"
+        >
+
+          <div
+            class="tv-placeholder"
+            id="tvPlaceholder"
+          >
+            paste a video below ✦
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- URL Controls -->
+
+      <div class="tv-controls">
+
+        <label
+          class="tv-url-label"
+          for="tvUrlInput"
+        >
+          paste video url here:
+        </label>
+
+
+        <div class="tv-url-row">
+
+          <input
+            class="tv-url-input"
+            id="tvUrlInput"
+            type="url"
+            placeholder="https://..."
+            autocomplete="off"
+          />
+
+          <button
+            class="tv-play-button"
+            id="tvPlayPauseButton"
+            type="button"
+          >
+            play
+          </button>
+
+        </div>
+
+
+        <p
+          class="tv-error"
+          id="tvError"
+          aria-live="polite"
+        ></p>
+
+
+        <button
+          class="tv-back-button"
+          id="tvBackButton"
+          type="button"
+        >
+          go back
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       LEAVE SOMETHING
+  ========================== -->
+
+  <div
+    class="leave-popup"
+    id="leavePopup"
+  >
+
+    <div class="leave-panel">
+
+
+      <!-- MENU BOARD -->
+
+      <div class="shelf-stage">
+
+        <img
+          class="shelves-image"
+          src="assets/menu-board.png"
+          alt="Seaside shop menu"
+        />
+
+
+        <div class="menu-items">
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/blueberry-pie.png"
+              alt="Blueberry pie"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/takoyaki.png"
+              alt="Takoyaki"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/stingray-omelette.png"
+              alt="Stingray omelette"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/icecream.png"
+              alt="Ice cream"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/melon-pan-turtle.png"
+              alt="Turtle melon pan"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/goldfish-bag.png"
+              alt="Goldfish bag"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/seashell-gratin.png"
+              alt="Seashell gratin"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/taiyaki.png"
+              alt="Taiyaki"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/ocean-bento.png"
+              alt="Ocean bento"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/mochi.png"
+              alt="Mochi"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/melon-parfait.png"
+              alt="Melon parfait"
+            />
+          </button>
+
+
+          <button class="shelf-item" type="button">
+            <img
+              src="assets/marine-gummies.png"
+              alt="Marine gummies"
+            />
+          </button>
+
+
+        </div>
+
+      </div>
+
+
+
+      <!-- LEAVE MESSAGE -->
+
+      <div class="leave-message">
+
+        <label
+          class="leave-message-label"
+          for="leaveMessageInput"
+        >
+          Leave a note for the next wanderer.
+        </label>
+
+        <textarea
+          id="leaveMessageInput"
+          class="leave-message-input"
+          maxlength="180"
+          placeholder="Write something for the next wanderer..."
+        ></textarea>
+
+        <p class="leave-message-hint">
+          Your name won't be shown — it'll just say “a wanderer.”
+        </p>
+
+      </div>
+
+
+
+      <!-- LEAVE ACTIONS -->
+
+      <div class="leave-actions">
+
+        <button
+          class="later-button"
+          id="laterButton"
+          type="button"
+        >
+          I'll do it later
+        </button>
+
+        <button
+          class="order-button"
+          id="orderButton"
+          type="button"
+          disabled
+        >
+          order!
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+</body>
+
+</html>
