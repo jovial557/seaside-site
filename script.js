@@ -3,6 +3,23 @@ console.log("Seaside Shop JavaScript loaded");
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ==================================================
+     SUPABASE
+  ================================================== */
+
+  const SUPABASE_URL =
+    "https://mwsxzapkfsswsnveojlk.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_DvWNKV1ZeAFBcWgb8VlukQ_p7xu9aom";
+
+  const db =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* ==================================================
      ELEMENTS
   ================================================== */
 
@@ -13,9 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("seeGiftButton");
 
 
-  /* =========================
-     RECEIVED GIFT
-  ========================== */
+  /* RECEIVED GIFT */
 
   const giftPopup =
     document.getElementById("giftPopup");
@@ -30,9 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("giftNoteBottle");
 
 
-  /* =========================
-     RECEIVED NOTE
-  ========================== */
+  /* RECEIVED NOTE */
 
   const notePopup =
     document.getElementById("notePopup");
@@ -47,9 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("leaveOneButton");
 
 
-  /* =========================
-     FOOD MENU
-  ========================== */
+  /* FOOD MENU */
 
   const leavePopup =
     document.getElementById("leavePopup");
@@ -64,9 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".shelf-item");
 
 
-  /* =========================
-     MESSAGE WRITER
-  ========================== */
+  /* MESSAGE WRITER */
 
   const messagePopup =
     document.getElementById("messagePopup");
@@ -81,9 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("messageSendButton");
 
 
-  /* =========================
-     SCENE OBJECTS
-  ========================== */
+  /* SCENE OBJECTS */
 
   const coolerButton =
     document.getElementById("coolerButton");
@@ -98,9 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("shopSignButton");
 
 
-  /* =========================
-     ABOUT
-  ========================== */
+  /* ABOUT */
 
   const aboutPopup =
     document.getElementById("aboutPopup");
@@ -109,9 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("aboutBackButton");
 
 
-  /* =========================
-     BACKGROUND MUSIC
-  ========================== */
+  /* MUSIC */
 
   const backgroundBgm =
     document.getElementById("backgroundBgm");
@@ -120,17 +123,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("soundToggle");
 
 
-  /* =========================
-     CLOCK
-  ========================== */
+  /* CLOCK */
 
   const digitalClock =
     document.getElementById("digitalClock");
 
 
-  /* =========================
-     SIDE MENU
-  ========================== */
+  /* SIDE MENU */
 
   const menuToggle =
     document.getElementById("menuToggle");
@@ -139,9 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("slideMenu");
 
 
-  /* =========================
-     TV
-  ========================== */
+  /* TV */
 
   const tvButton =
     document.getElementById("tvButton");
@@ -171,11 +168,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let selectedShelfItem = null;
 
+  let pendingGift = null;
+
   let tvIsPlaying = false;
-
-
-  const SAVED_ORDER_KEY =
-    "seasideShopPreviousOrder";
 
 
   /* ==================================================
@@ -183,126 +178,82 @@ document.addEventListener("DOMContentLoaded", () => {
   ================================================== */
 
   const defaultGift = {
-
-    name:
-      "Stingray omelette",
-
-    image:
-      "assets/stingray-omelette.png",
-
+    name: "Stingray omelette",
+    image: "assets/stingray-omelette.png",
     message:
       "I hope something unexpectedly nice happens to you today."
-
   };
 
 
   /* ==================================================
-     GET SAVED ORDER
+     LOAD LATEST SHARED GIFT
   ================================================== */
 
-  function getPreviousOrder() {
+  async function getLatestGift() {
 
-    const saved =
-      localStorage.getItem(
-        SAVED_ORDER_KEY
-      );
-
-
-    if (!saved) {
-
-      return {
-        ...defaultGift
-      };
-
-    }
-
-
-    try {
-
-      const parsed =
-        JSON.parse(saved);
+    const { data, error } =
+      await db
+        .from("wanderer_gifts")
+        .select(
+          "gift_name, gift_image, message, created_at"
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        )
+        .limit(1)
+        .maybeSingle();
 
 
-      return {
-
-        name:
-          parsed.name ||
-          defaultGift.name,
-
-        image:
-          parsed.image ||
-          defaultGift.image,
-
-        message:
-          parsed.message ||
-          defaultGift.message
-
-      };
-
-    }
-
-    catch (error) {
+    if (error) {
 
       console.error(
-        "Could not read saved order:",
+        "Could not load shared gift:",
         error
       );
 
-
-      return {
-        ...defaultGift
-      };
-
+      return defaultGift;
     }
+
+
+    if (!data) {
+
+      return defaultGift;
+    }
+
+
+    return {
+      name:
+        data.gift_name ||
+        defaultGift.name,
+
+      image:
+        data.gift_image ||
+        defaultGift.image,
+
+      message:
+        data.message ||
+        defaultGift.message
+    };
 
   }
 
 
-  /* ==================================================
-     SAVE ORDER
-  ================================================== */
+  async function loadReceivedGift() {
 
-  function savePreviousOrder(order) {
-
-    try {
-
-      localStorage.setItem(
-        SAVED_ORDER_KEY,
-        JSON.stringify(order)
-      );
-
-    }
-
-    catch (error) {
-
-      console.error(
-        "Could not save order:",
-        error
-      );
-
-    }
-
-  }
-
-
-  /* ==================================================
-     LOAD RECEIVED GIFT
-  ================================================== */
-
-  function loadReceivedGift() {
-
-    const previousOrder =
-      getPreviousOrder();
+    const latestGift =
+      await getLatestGift();
 
 
     if (giftItem) {
 
       giftItem.src =
-        previousOrder.image;
-
+        latestGift.image;
 
       giftItem.alt =
-        previousOrder.name;
+        latestGift.name;
 
     }
 
@@ -310,9 +261,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (noteMessage) {
 
       noteMessage.textContent =
-        previousOrder.message;
+        latestGift.message;
 
     }
+
+
+    console.log(
+      "Latest shared gift:",
+      latestGift
+    );
 
   }
 
@@ -321,190 +278,130 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     CLOSE POPUPS
+     SAVE COMPLETE GIFT + MESSAGE
+  ================================================== */
 
-     IMPORTANT:
-     TV playback keeps running.
+  async function saveSharedGift(
+    giftName,
+    giftImage,
+    message
+  ) {
+
+    const { error } =
+      await db
+        .from("wanderer_gifts")
+        .insert({
+          gift_name:
+            giftName,
+
+          gift_image:
+            giftImage,
+
+          message:
+            message
+        });
+
+
+    if (error) {
+
+      console.error(
+        "Could not save shared gift:",
+        error
+      );
+
+      return false;
+    }
+
+
+    console.log(
+      "Shared gift saved!"
+    );
+
+
+    return true;
+
+  }
+
+
+  /* ==================================================
+     CLOSE ALL POPUPS
+
+     Does not stop TV.
   ================================================== */
 
   function closeAllPopups() {
 
     if (welcomePopup) {
-
       welcomePopup.style.display =
         "none";
-
     }
-
 
     if (giftPopup) {
-
       giftPopup.style.display =
         "none";
-
     }
-
 
     if (notePopup) {
-
       notePopup.style.display =
         "none";
-
     }
-
 
     if (leavePopup) {
-
       leavePopup.style.display =
         "none";
-
     }
-
 
     if (messagePopup) {
-
       messagePopup.style.display =
         "none";
-
     }
-
 
     if (aboutPopup) {
-
       aboutPopup.style.display =
         "none";
-
     }
 
-
     if (tvPopup) {
-
       tvPopup.style.display =
         "none";
-
     }
 
   }
 
 
   /* ==================================================
-     OPEN MESSAGE POPUP
-
-     Used by BOTH:
-     - bottle box
-     - order button
+     MESSAGE POPUP
   ================================================== */
 
   function openMessagePopup() {
 
-    console.log(
-      "Opening message popup"
-    );
-
-
     if (!messagePopup) {
-
-      console.error(
-        "messagePopup not found"
-      );
-
       return;
-
     }
 
 
-    /*
-      Close anything that could
-      still be showing.
-    */
+    closeAllPopups();
 
-    if (welcomePopup) {
-
-      welcomePopup.style.display =
-        "none";
-
-    }
-
-
-    if (giftPopup) {
-
-      giftPopup.style.display =
-        "none";
-
-    }
-
-
-    if (notePopup) {
-
-      notePopup.style.display =
-        "none";
-
-    }
-
-
-    if (leavePopup) {
-
-      leavePopup.style.display =
-        "none";
-
-    }
-
-
-    if (aboutPopup) {
-
-      aboutPopup.style.display =
-        "none";
-
-    }
-
-
-    if (tvPopup) {
-
-      tvPopup.style.display =
-        "none";
-
-    }
-
-
-    /*
-      Clear previous typing.
-    */
 
     if (messageInput) {
-
-      messageInput.value =
-        "";
-
+      messageInput.value = "";
     }
 
 
     updateSendButtonState();
 
 
-    /*
-      OPEN MESSAGE POPUP
-    */
-
     messagePopup.style.display =
       "flex";
 
 
-    /*
-      Focus textarea.
-    */
+    setTimeout(() => {
 
-    setTimeout(
-      () => {
+      if (messageInput) {
+        messageInput.focus();
+      }
 
-        if (messageInput) {
-
-          messageInput.focus();
-
-        }
-
-      },
-      100
-    );
+    }, 100);
 
   }
 
@@ -516,9 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateClock() {
 
     if (!digitalClock) {
-
       return;
-
     }
 
 
@@ -526,16 +421,9 @@ document.addEventListener("DOMContentLoaded", () => {
       new Date().toLocaleTimeString(
         [],
         {
-
-          hour:
-            "2-digit",
-
-          minute:
-            "2-digit",
-
-          second:
-            "2-digit"
-
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
         }
       );
 
@@ -543,7 +431,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   updateClock();
-
 
   setInterval(
     updateClock,
@@ -592,7 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     INTRO → RECEIVED GIFT
+     INTRO → GIFT
   ================================================== */
 
   if (
@@ -602,17 +489,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     seeGiftButton.addEventListener(
       "click",
-      () => {
+      async () => {
 
         if (welcomePopup) {
-
           welcomePopup.style.display =
             "none";
-
         }
 
 
-        loadReceivedGift();
+        await loadReceivedGift();
 
 
         giftPopup.style.display =
@@ -625,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     FOR YOU → RECEIVED GIFT
+     FOR YOU → LATEST SHARED GIFT
   ================================================== */
 
   if (
@@ -635,12 +520,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     forYouButton.addEventListener(
       "click",
-      () => {
+      async () => {
 
         closeAllPopups();
 
 
-        loadReceivedGift();
+        await loadReceivedGift();
 
 
         giftPopup.style.display =
@@ -653,7 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     GIFT BOTTLE → READ NOTE
+     GIFT BOTTLE → READ MESSAGE
   ================================================== */
 
   if (
@@ -664,13 +549,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     giftNoteBottle.addEventListener(
       "click",
-      () => {
+      async () => {
 
         giftPopup.style.display =
           "none";
 
 
-        loadReceivedGift();
+        await loadReceivedGift();
 
 
         notePopup.style.display =
@@ -724,8 +609,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ==================================================
      NOTE → LEAVE ONE TOO
-
-     Goes to food menu.
   ================================================== */
 
   if (
@@ -739,9 +622,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         closeAllPopups();
 
-
         resetMenuSelection();
-
 
         leavePopup.style.display =
           "flex";
@@ -767,9 +648,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         closeAllPopups();
 
-
         resetMenuSelection();
-
 
         leavePopup.style.display =
           "flex";
@@ -781,21 +660,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     FOOD MENU STATE
+     FOOD MENU
   ================================================== */
 
   function updateOrderButtonState() {
 
     if (!orderButton) {
-
       return;
-
     }
 
 
     orderButton.disabled =
-      selectedShelfItem ===
-      null;
+      selectedShelfItem === null;
 
   }
 
@@ -813,9 +689,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    selectedShelfItem =
-      null;
-
+    selectedShelfItem = null;
 
     updateOrderButtonState();
 
@@ -824,10 +698,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateOrderButtonState();
 
-
-  /* ==================================================
-     FOOD SELECTION
-  ================================================== */
 
   shelfItems.forEach(
     (item) => {
@@ -892,10 +762,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ==================================================
      ORDER
-
-     SAVE FOOD
-     ↓
-     OPEN MESSAGE POPUP
+     Store food temporarily,
+     then ask for message.
   ================================================== */
 
   if (orderButton) {
@@ -904,19 +772,8 @@ document.addEventListener("DOMContentLoaded", () => {
       "click",
       () => {
 
-        console.log(
-          "Order button clicked"
-        );
-
-
         if (!selectedShelfItem) {
-
-          console.log(
-            "No food selected"
-          );
-
           return;
-
         }
 
 
@@ -927,21 +784,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (!selectedImage) {
-
-          console.error(
-            "Selected item has no image"
-          );
-
           return;
-
         }
 
 
-        const currentOrder =
-          getPreviousOrder();
-
-
-        const updatedOrder = {
+        pendingGift = {
 
           name:
             selectedImage.alt ||
@@ -950,48 +797,19 @@ document.addEventListener("DOMContentLoaded", () => {
           image:
             selectedImage.getAttribute(
               "src"
-            ),
-
-          /*
-            Keep existing message
-            temporarily.
-          */
-
-          message:
-            currentOrder.message
+            )
 
         };
 
 
-        savePreviousOrder(
-          updatedOrder
-        );
-
-
         console.log(
-          "Food saved:",
-          updatedOrder
+          "Pending gift:",
+          pendingGift
         );
 
-
-        /*
-          Reset selected item.
-        */
 
         resetMenuSelection();
 
-
-        /*
-          Update received gift.
-        */
-
-        loadReceivedGift();
-
-
-        /*
-          OPEN THE SAME MESSAGE
-          POPUP AS THE BOTTLE BOX.
-        */
 
         openMessagePopup();
 
@@ -1002,7 +820,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     MESSAGE BOTTLE BOX → MESSAGE POPUP
+     MESSAGE BOTTLE BOX
   ================================================== */
 
   if (messageBottleBoxButton) {
@@ -1011,6 +829,15 @@ document.addEventListener("DOMContentLoaded", () => {
       "click",
       () => {
 
+        /*
+          If they didn't select food,
+          this becomes a message-only action.
+
+          We'll pair it with the latest gift.
+        */
+
+        pendingGift = null;
+
         openMessagePopup();
 
       }
@@ -1020,7 +847,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     MESSAGE SEND BUTTON STATE
+     SEND BUTTON STATE
   ================================================== */
 
   function updateSendButtonState() {
@@ -1029,9 +856,7 @@ document.addEventListener("DOMContentLoaded", () => {
       !messageSendButton ||
       !messageInput
     ) {
-
       return;
-
     }
 
 
@@ -1047,11 +872,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     messageInput.addEventListener(
       "input",
-      () => {
-
-        updateSendButtonState();
-
-      }
+      updateSendButtonState
     );
 
   }
@@ -1061,7 +882,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     MESSAGE → BACK
+     MESSAGE BACK
   ================================================== */
 
   if (
@@ -1076,6 +897,9 @@ document.addEventListener("DOMContentLoaded", () => {
         messagePopup.style.display =
           "none";
 
+
+        pendingGift = null;
+
       }
     );
 
@@ -1083,10 +907,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     MESSAGE → SEND
+     SEND MESSAGE
 
-     Keep food.
-     Replace saved message.
+     This is where the shared row
+     actually gets created.
   ================================================== */
 
   if (
@@ -1097,51 +921,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
     messageSendButton.addEventListener(
       "click",
-      () => {
+      async () => {
 
         const message =
           messageInput.value.trim();
 
 
         if (!message) {
-
           return;
+        }
+
+
+        messageSendButton.disabled =
+          true;
+
+
+        let giftToSave =
+          pendingGift;
+
+
+        /*
+          If message bottle was clicked
+          directly without choosing food,
+          attach the message to the
+          current latest gift.
+        */
+
+        if (!giftToSave) {
+
+          const latestGift =
+            await getLatestGift();
+
+
+          giftToSave = {
+
+            name:
+              latestGift.name,
+
+            image:
+              latestGift.image
+
+          };
 
         }
 
 
-        const currentOrder =
-          getPreviousOrder();
-
-
-        const updatedOrder = {
-
-          name:
-            currentOrder.name,
-
-          image:
-            currentOrder.image,
-
-          message:
+        const success =
+          await saveSharedGift(
+            giftToSave.name,
+            giftToSave.image,
             message
-
-        };
-
-
-        savePreviousOrder(
-          updatedOrder
-        );
+          );
 
 
-        console.log(
-          "Message saved:",
-          updatedOrder
-        );
+        if (!success) {
+
+          messageSendButton.disabled =
+            false;
+
+          return;
+        }
 
 
-        messageInput.value =
-          "";
+        messageInput.value = "";
 
+        pendingGift = null;
 
         updateSendButtonState();
 
@@ -1150,7 +994,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "none";
 
 
-        loadReceivedGift();
+        await loadReceivedGift();
 
       }
     );
@@ -1172,7 +1016,6 @@ document.addEventListener("DOMContentLoaded", () => {
       () => {
 
         closeAllPopups();
-
 
         aboutPopup.style.display =
           "flex";
@@ -1206,21 +1049,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ==================================================
-     TV BUTTON STATE
+     TV
   ================================================== */
 
-  function setTvButtonState(
-    isPlaying
-  ) {
+  function setTvButtonState(isPlaying) {
 
-    tvIsPlaying =
-      isPlaying;
+    tvIsPlaying = isPlaying;
 
 
     if (!tvPlayPauseButton) {
-
       return;
-
     }
 
 
@@ -1231,10 +1069,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
-  /* ==================================================
-     TV → OPEN
-  ================================================== */
 
   if (
     tvButton &&
@@ -1247,7 +1081,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         closeAllPopups();
 
-
         tvPopup.style.display =
           "flex";
 
@@ -1256,12 +1089,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
-  /* ==================================================
-     TV → GO BACK
-
-     DOES NOT STOP VIDEO.
-  ================================================== */
 
   if (
     tvBackButton &&
@@ -1292,13 +1119,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (!url) {
-
       return null;
-
     }
 
-
-    /* YouTube */
 
     const youtubePatterns = [
 
@@ -1339,8 +1162,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* Vimeo */
-
     const vimeoMatch =
       url.match(
         /vimeo\.com\/(?:video\/)?(\d+)/
@@ -1362,8 +1183,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* Direct video */
-
     if (
       /\.(mp4|webm|ogg)(\?.*)?$/i
         .test(url)
@@ -1381,8 +1200,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* Generic iframe */
 
     return {
 
@@ -1407,9 +1224,7 @@ document.addEventListener("DOMContentLoaded", () => {
       !tvUrlInput ||
       !tvVideoWindow
     ) {
-
       return;
-
     }
 
 
@@ -1429,36 +1244,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
 
-      setTvButtonState(
-        false
-      );
-
+      setTvButtonState(false);
 
       return;
-
     }
 
 
-    tvVideoWindow.innerHTML =
-      "";
+    tvVideoWindow.innerHTML = "";
 
 
     if (tvError) {
 
-      tvError.textContent =
-        "";
+      tvError.textContent = "";
 
     }
 
 
-    /* =========================
-       DIRECT VIDEO
-    ========================== */
-
-    if (
-      info.type ===
-      "video"
-    ) {
+    if (info.type === "video") {
 
       const video =
         document.createElement(
@@ -1499,9 +1301,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(
           () => {
 
-            setTvButtonState(
-              true
-            );
+            setTvButtonState(true);
 
           }
         )
@@ -1514,22 +1314,15 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-            setTvButtonState(
-              false
-            );
+            setTvButtonState(false);
 
           }
         );
 
 
       return;
-
     }
 
-
-    /* =========================
-       EMBEDDED VIDEO
-    ========================== */
 
     const iframe =
       document.createElement(
@@ -1568,9 +1361,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    setTvButtonState(
-      true
-    );
+    setTvButtonState(true);
 
   }
 
@@ -1582,9 +1373,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function playTvVideo() {
 
     if (!tvVideoWindow) {
-
       return;
-
     }
 
 
@@ -1600,26 +1389,20 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(
           () => {
 
-            setTvButtonState(
-              true
-            );
+            setTvButtonState(true);
 
           }
         )
         .catch(
           (error) => {
 
-            console.error(
-              "Unable to resume video:",
-              error
-            );
+            console.error(error);
 
           }
         );
 
 
       return;
-
     }
 
 
@@ -1635,12 +1418,7 @@ document.addEventListener("DOMContentLoaded", () => {
         iframe.dataset.videoType;
 
 
-      /* YouTube */
-
-      if (
-        type ===
-        "youtube"
-      ) {
+      if (type === "youtube") {
 
         iframe.contentWindow.postMessage(
           JSON.stringify({
@@ -1659,49 +1437,30 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        setTvButtonState(
-          true
-        );
-
+        setTvButtonState(true);
 
         return;
-
       }
 
 
-      /* Vimeo */
-
-      if (
-        type ===
-        "vimeo"
-      ) {
+      if (type === "vimeo") {
 
         iframe.contentWindow.postMessage(
           {
-
             method:
               "play"
-
           },
           "*"
         );
 
 
-        setTvButtonState(
-          true
-        );
-
+        setTvButtonState(true);
 
         return;
-
       }
 
     }
 
-
-    /*
-      No video loaded yet.
-    */
 
     loadTvVideo();
 
@@ -1715,9 +1474,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function pauseTvVideo() {
 
     if (!tvVideoWindow) {
-
       return;
-
     }
 
 
@@ -1731,14 +1488,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       video.pause();
 
-
-      setTvButtonState(
-        false
-      );
-
+      setTvButtonState(false);
 
       return;
-
     }
 
 
@@ -1749,9 +1501,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (!iframe) {
-
       return;
-
     }
 
 
@@ -1759,12 +1509,7 @@ document.addEventListener("DOMContentLoaded", () => {
       iframe.dataset.videoType;
 
 
-    /* YouTube */
-
-    if (
-      type ===
-      "youtube"
-    ) {
+    if (type === "youtube") {
 
       iframe.contentWindow.postMessage(
         JSON.stringify({
@@ -1785,19 +1530,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* Vimeo */
-
-    if (
-      type ===
-      "vimeo"
-    ) {
+    if (type === "vimeo") {
 
       iframe.contentWindow.postMessage(
         {
-
           method:
             "pause"
-
         },
         "*"
       );
@@ -1805,9 +1543,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    setTvButtonState(
-      false
-    );
+    setTvButtonState(false);
 
   }
 
@@ -1826,9 +1562,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           pauseTvVideo();
 
-        }
-
-        else {
+        } else {
 
           playTvVideo();
 
@@ -1839,10 +1573,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
-  /* ==================================================
-     ENTER URL → PLAY
-  ================================================== */
 
   if (tvUrlInput) {
 
@@ -1856,7 +1586,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
 
           event.preventDefault();
-
 
           loadTvVideo();
 
