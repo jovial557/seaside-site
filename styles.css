@@ -1,6 +1,6 @@
-/* ==============================
+/* ==================================================
    RESET
-============================== */
+================================================== */
 
 * {
   box-sizing: border-box;
@@ -18,13 +18,13 @@ body {
 }
 
 body {
-  background: #389CDF;
+  background: #1f4f7a;
 }
 
 
-/* ==============================
+/* ==================================================
    MAIN PAGE
-============================== */
+================================================== */
 
 .page {
   width: 100vw;
@@ -72,9 +72,10 @@ body {
   z-index: 0;
 }
 
-/* ==============================
+
+/* ==================================================
    DIGITAL CLOCK
-============================== */
+================================================== */
 
 .digital-clock {
   position: fixed;
@@ -109,9 +110,9 @@ body {
 }
 
 
-/* ==============================
-   SOUND TOGGLE
-============================== */
+/* ==================================================
+   SOUND
+================================================== */
 
 .sound-toggle {
   position: fixed;
@@ -135,7 +136,7 @@ body {
 
   background: rgba(255, 250, 238, 0.92);
 
-  color: #30507E;
+  color: #30507e;
 
   font-family: "Coming Soon", cursive;
   font-size: 24px;
@@ -152,12 +153,11 @@ body {
 
 .sound-toggle:hover {
   transform: rotate(6deg);
-
   background: #fffaf0;
 }
 
 .sound-toggle:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid #fff;
   outline-offset: 3px;
 }
 
@@ -177,7 +177,7 @@ body {
   left: 50%;
   top: 50%;
 
-  background: #30507E;
+  background: #30507e;
 
   transform:
     translate(-50%, -50%)
@@ -202,21 +202,26 @@ body {
 
 .sound-hint {
   position: absolute;
+
   top: 17px;
-  right: 65px; /* places it just to the left of the audio icon */
+  right: 65px;
+
   margin: 0;
+
+  color: #fffdf7;
+
   font-family: "Coming Soon", cursive;
   font-size: 12px;
-  color: #fffdf7;
+
   white-space: nowrap;
-  z-index: 30;
+
   pointer-events: none;
 }
 
 
-/* ==============================
-   SIDE MENU BUTTON
-============================== */
+/* ==================================================
+   SIDE MENU
+================================================== */
 
 .menu-toggle {
   position: fixed;
@@ -235,14 +240,13 @@ body {
 
   padding: 0;
 
-  border: none;
+  border: 0;
+
   background: transparent;
-  box-shadow: none;
 
   cursor: pointer;
 
-  transition:
-    transform 180ms ease;
+  transition: transform 180ms ease;
 }
 
 .menu-toggle img {
@@ -264,10 +268,6 @@ body {
   outline: none;
 }
 
-
-/* ==============================
-   SLIDE MENU
-============================== */
 
 .slide-menu {
   position: fixed;
@@ -366,9 +366,9 @@ body {
 }
 
 
-/* ==============================
-   INTERACTIVE LAYER
-============================== */
+/* ==================================================
+   INTERACTIVE OBJECTS
+================================================== */
 
 .interactive-layer {
   position: absolute;
@@ -382,11 +382,6 @@ body {
   pointer-events: none;
 }
 
-
-/* ==============================
-   INTERACTIVE OBJECTS
-============================== */
-
 .interactive-object {
   position: absolute;
 
@@ -394,6 +389,7 @@ body {
   margin: 0;
 
   border: 0;
+
   background: transparent;
 
   cursor: pointer;
@@ -414,6 +410,9 @@ body {
     transform 160ms ease;
 }
 
+
+/* WHITE STROKE */
+
 .interactive-object:hover img,
 .interactive-object:focus-visible img {
   filter:
@@ -428,49 +427,59 @@ body {
 }
 
 
-/* ==============================
+/* ==================================================
    OBJECT POSITIONS
-============================== */
+================================================== */
 
 .shop-sign {
   left: 33%;
-  top: 66%;
+  top: 64%;
   width: 9%;
 }
 
 .cooler {
   left: 40%;
-  top: 71%;
+  top: 68%;
   width: 13%;
 }
 
 .bottle-box {
-  left: 65.5%;
-  top: 68%;
-  width: 14%;
+  left: 68%;
+  top: 65%;
+  width: 15%;
 }
 
+.for-you {
+  left: 49%;
+  top: 57.5%;
 
-/* TV ON STOOL */
+  width: 5.2%;
+
+  z-index: 8;
+}
 
 .tv-object {
-  left: 77.3%;
-  top: 69%;
+  left: 81.5%;
+  top: 65.5%;
+
   width: 5%;
 }
 
 
-/* ==============================
-   INTRO POPUP
-============================== */
+/* ==================================================
+   COMMON POPUP BACKDROP
+================================================== */
 
-.welcome-popup {
+.welcome-popup,
+.gift-popup,
+.note-popup,
+.leave-popup,
+.message-popup,
+.about-popup,
+.tv-popup {
   position: fixed;
   inset: 0;
 
-  z-index: 1000;
-
-  display: flex;
   align-items: center;
   justify-content: center;
 
@@ -480,6 +489,17 @@ body {
 
   backdrop-filter: blur(9px);
   -webkit-backdrop-filter: blur(9px);
+}
+
+
+/* ==================================================
+   INTRO POPUP
+================================================== */
+
+.welcome-popup {
+  z-index: 1000;
+
+  display: flex;
 }
 
 .popup-position {
@@ -503,11 +523,6 @@ body {
   user-select: none;
 }
 
-
-/* ==============================
-   INTRO BUTTON
-============================== */
-
 .popup-action {
   position: absolute;
 
@@ -519,9 +534,9 @@ body {
   transform: translateX(-50%);
 
   padding: 0;
-  margin: 0;
 
   border: 0;
+
   background: transparent;
 
   cursor: pointer;
@@ -535,10 +550,6 @@ body {
   width: 100%;
   height: auto;
 
-  pointer-events: none;
-
-  transform: rotate(0deg);
-
   transition:
     transform 180ms ease,
     filter 180ms ease;
@@ -550,30 +561,28 @@ body {
     translateY(-2px);
 
   filter:
-    drop-shadow(0 7px 8px rgba(0, 0, 0, 0.14));
+    drop-shadow(
+      0 7px 8px rgba(0, 0, 0, 0.14)
+    );
 }
 
 
-/* ==============================
-   GIFT POPUP
-============================== */
+/* ==================================================
+   RECEIVED GIFT
+================================================== */
 
 .gift-popup {
-  position: fixed;
-  inset: 0;
-
   z-index: 1100;
 
   display: none;
+}
+
+.gift-popup-content {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
 
-  padding: 24px;
-
-  background: rgba(5, 19, 77, 0.18);
-
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  gap: 8px;
 }
 
 .gift-stage {
@@ -607,9 +616,7 @@ body {
 }
 
 
-/* ==============================
-   MESSAGE BOTTLE
-============================== */
+/* MESSAGE BOTTLE ON TRAY */
 
 .gift-note-bottle {
   position: absolute;
@@ -620,9 +627,9 @@ body {
   width: 24%;
 
   padding: 0;
-  margin: 0;
 
   border: 0;
+
   background: transparent;
 
   cursor: pointer;
@@ -673,38 +680,17 @@ body {
 
 }
 
-.gift-note-bottle:hover img,
-.gift-note-bottle:focus-visible img {
+.gift-note-bottle:hover img {
   animation: none;
 
   transform:
     translateY(-4px)
     rotate(6deg)
     scale(1.03);
-
-  filter:
-    drop-shadow(
-      0 8px 10px
-      rgba(0, 0, 0, 0.16)
-    );
-}
-
-/* ==============================
-   GIFT POPUP CONTENT
-============================== */
-
-.gift-popup-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  gap: 8px;
 }
 
 
-/* ==============================
-   GIFT GO BACK BUTTON
-============================== */
+/* GIFT EXIT */
 
 .gift-back-button {
   margin-top: 4px;
@@ -722,40 +708,24 @@ body {
   font-size: 17px;
 
   cursor: pointer;
-
-  transition:
-    transform 160ms ease,
-    background 160ms ease;
 }
 
 .gift-back-button:hover {
-  transform:
-    translateY(-2px)
-    rotate(-1deg);
+  transform: translateY(-2px);
 
-  background: rgba(5, 19, 77, 0.7);
+  background:
+    rgba(5, 19, 77, 0.7);
 }
 
-/* ==============================
-   NOTE POPUP
-============================== */
+
+/* ==================================================
+   RECEIVED NOTE
+================================================== */
 
 .note-popup {
-  position: fixed;
-  inset: 0;
-
   z-index: 1200;
 
   display: none;
-  align-items: center;
-  justify-content: center;
-
-  padding: 24px;
-
-  background: rgba(5, 19, 77, 0.18);
-
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
 }
 
 .note-card {
@@ -773,8 +743,6 @@ body {
 
   width: 100%;
   height: auto;
-
-  user-select: none;
 }
 
 .note-content {
@@ -790,11 +758,9 @@ body {
 
   text-align: center;
 
-  color: #30507E;
+  color: #30507e;
 
-  font-family:
-    "Coming Soon",
-    cursive;
+  font-family: "Coming Soon", cursive;
 
   letter-spacing: 0.07em;
 }
@@ -837,74 +803,36 @@ body {
 .note-button {
   padding: 11px 20px;
 
-  border:
-    1.5px solid
-    #30507E;
-
+  border: 1.5px solid #30507e;
   border-radius: 999px;
 
   background:
-    rgba(
-      255,
-      255,
-      255,
-      0.28
-    );
+    rgba(255, 255, 255, 0.28);
 
-  color: #30507E;
+  color: #30507e;
 
-  font-family:
-    "Coming Soon",
-    cursive;
-
+  font-family: "Coming Soon", cursive;
   font-size: 17px;
 
   cursor: pointer;
-
-  transition:
-    transform 160ms ease,
-    background 160ms ease;
 }
 
 .note-button:hover {
   transform: rotate(2deg);
 
   background:
-    rgba(
-      255,
-      255,
-      255,
-      0.65
-    );
+    rgba(255, 255, 255, 0.65);
 }
 
 
-/* ==============================
-   ABOUT SHOP
-============================== */
+/* ==================================================
+   ABOUT
+================================================== */
 
 .about-popup {
-  position: fixed;
-  inset: 0;
-
   z-index: 1400;
 
   display: none;
-  align-items: center;
-  justify-content: center;
-
-  padding: 24px;
-
-  background:
-    rgba(
-      5,
-      19,
-      77,
-      0.18
-    );
-
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
 }
 
 .about-card {
@@ -912,25 +840,15 @@ body {
   flex-direction: column;
   align-items: center;
 
-  width:
-    min(
-      500px,
-      82vw
-    );
+  width: min(500px, 82vw);
 
-  animation:
-    aboutEnter
-    350ms
-    ease-out;
+  animation: aboutEnter 350ms ease-out;
 }
 
 .about-board {
   display: block;
 
-  width: auto;
   max-width: 100%;
-
-  height: auto;
   max-height: 78vh;
 
   object-fit: contain;
@@ -941,87 +859,32 @@ body {
 
   padding: 10px 22px;
 
-  border:
-    1.5px solid
-    #fffaf0;
-
+  border: 1.5px solid #fffaf0;
   border-radius: 999px;
 
-  background:
-    rgba(
-      5,
-      19,
-      77,
-      0.45
-    );
+  background: rgba(5, 19, 77, 0.45);
 
   color: #fffaf0;
 
-  font-family:
-    "Coming Soon",
-    cursive;
-
+  font-family: "Coming Soon", cursive;
   font-size: 17px;
 
   cursor: pointer;
-
-  transition:
-    transform 160ms ease,
-    background 160ms ease;
-}
-
-.about-back-button:hover {
-  transform:
-    translateY(-2px)
-    rotate(-2deg);
-
-  background:
-    rgba(
-      5,
-      19,
-      77,
-      0.7
-    );
 }
 
 
-/* ==============================
-   TV POPUP
-============================== */
+/* ==================================================
+   TV
+================================================== */
 
 .tv-popup {
-  position: fixed;
-  inset: 0;
-
   z-index: 1450;
 
   display: none;
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-
-  background:
-    rgba(
-      5,
-      19,
-      77,
-      0.18
-    );
-
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
 }
 
-
-/* Popup layout */
-
 .tv-popup-content {
-  width:
-    min(
-      580px,
-      90vw
-    );
+  width: min(580px, 90vw);
 
   display: flex;
   flex-direction: column;
@@ -1029,16 +892,8 @@ body {
 
   gap: 10px;
 
-  animation:
-    tvEnter
-    350ms
-    ease-out;
+  animation: tvEnter 350ms ease-out;
 }
-
-
-/* ==============================
-   TV IMAGE
-============================== */
 
 .tv-stage {
   position: relative;
@@ -1062,21 +917,12 @@ body {
   pointer-events: none;
 }
 
-
-/* ==============================
-   VIDEO INSIDE TV SCREEN
-============================== */
-
 .tv-video-window {
   position: absolute;
 
-  /*
-    Fits over the gray glass area
-    of tv-screen.png
-  */
-
   left: 7%;
   top: 21%;
+
   width: 69%;
   height: 59%;
 
@@ -1106,9 +952,8 @@ body {
 }
 
 .tv-placeholder {
-  padding: 12px;
-
-  color: rgba(255, 255, 255, 0.72);
+  color:
+    rgba(255, 255, 255, 0.72);
 
   font-family: "Coming Soon", cursive;
   font-size: 13px;
@@ -1116,17 +961,8 @@ body {
   text-align: center;
 }
 
-
-/* ==============================
-   TV CONTROLS
-============================== */
-
 .tv-controls {
-  width:
-    min(
-      470px,
-      82vw
-    );
+  width: min(470px, 82vw);
 
   display: flex;
   flex-direction: column;
@@ -1138,10 +974,7 @@ body {
 .tv-url-label {
   color: #fffaf0;
 
-  font-family:
-    "Coming Soon",
-    cursive;
-
+  font-family: "Coming Soon", cursive;
   font-size: 16px;
 }
 
@@ -1160,50 +993,25 @@ body {
 
   padding: 10px 14px;
 
-  border:
-    1.5px solid
-    #fffaf0;
-
+  border: 1.5px solid #fffaf0;
   border-radius: 999px;
 
   background:
-    rgba(
-      255,
-      250,
-      240,
-      0.94
-    );
+    rgba(255, 250, 240, 0.94);
 
-  color: #30507E;
+  color: #30507e;
 
-  font-family:
-    "Coming Soon",
-    cursive;
-
+  font-family: "Coming Soon", cursive;
   font-size: 14px;
 
   outline: none;
-}
-
-.tv-url-input::placeholder {
-  color:
-    rgba(
-      48,
-      80,
-      126,
-      0.5
-    );
 }
 
 .tv-url-input:focus {
   background: #fffaf0;
 }
 
-
-/* Buttons */
-
 .tv-play-button,
-.tv-pause-button,
 .tv-back-button {
   display: inline-flex;
   align-items: center;
@@ -1218,37 +1026,19 @@ body {
   font-size: 15px;
 
   cursor: pointer;
-
-  transition:
-    transform 160ms ease,
-    background 160ms ease;
 }
 
 .tv-play-button {
   background: #fffaf0;
-  color: #30507E;
-}
 
-.tv-pause-button {
-  background: rgba(5, 19, 77, 0.45);
-  color: #fffaf0;
+  color: #30507e;
 }
 
 .tv-back-button {
   background: rgba(5, 19, 77, 0.45);
+
   color: #fffaf0;
 }
-
-.tv-play-button:hover,
-.tv-pause-button:hover,
-.tv-back-button:hover {
-  transform:
-    translateY(-2px)
-    rotate(-1deg);
-}
-
-
-/* Error */
 
 .tv-error {
   min-height: 18px;
@@ -1257,50 +1047,24 @@ body {
 
   color: #fffaf0;
 
-  font-family:
-    "Coming Soon",
-    cursive;
-
+  font-family: "Coming Soon", cursive;
   font-size: 12px;
-
-  text-align: center;
 }
 
 
-/* ==============================
-   LEAVE POPUP
-============================== */
+/* ==================================================
+   FOOD MENU
+   Opened by cooler
+================================================== */
 
 .leave-popup {
-  position: fixed;
-  inset: 0;
-
   z-index: 1300;
 
   display: none;
-  align-items: center;
-  justify-content: center;
-
-  padding: 24px;
-
-  background:
-    rgba(
-      5,
-      19,
-      77,
-      0.18
-    );
-
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
 }
 
 .leave-panel {
-  width:
-    min(
-      1000px,
-      94vw
-    );
+  width: min(1000px, 94vw);
 
   display: flex;
   flex-direction: column;
@@ -1312,18 +1076,12 @@ body {
 }
 
 
-/* ==============================
-   MENU BOARD
-============================== */
+/* MENU BOARD */
 
 .shelf-stage {
   position: relative;
 
-  width:
-    min(
-      900px,
-      88vw
-    );
+  width: min(900px, 88vw);
 
   display: flex;
   justify-content: center;
@@ -1339,9 +1097,7 @@ body {
 }
 
 
-/* ==============================
-   MENU ITEMS
-============================== */
+/* MENU ITEMS */
 
 .menu-items {
   position: absolute;
@@ -1349,8 +1105,7 @@ body {
   left: 50%;
   top: 23%;
 
-  transform:
-    translateX(-50%);
+  transform: translateX(-50%);
 
   width: 70%;
   height: 40%;
@@ -1381,7 +1136,6 @@ body {
   justify-content: center;
 
   padding: 0;
-  margin: 0;
 
   border: 0;
 
@@ -1412,138 +1166,29 @@ body {
     scale(1.03);
 }
 
+
+/* SELECTED FOOD WHITE GLOW */
+
 .shelf-item.is-selected img {
   transform:
     translateY(-10px)
     scale(1.08);
 
   filter:
-    drop-shadow(
-      4px 0 0
-      #ffffff
-    )
-    drop-shadow(
-      -4px 0 0
-      #ffffff
-    )
-    drop-shadow(
-      0 4px 0
-      #ffffff
-    )
-    drop-shadow(
-      0 -4px 0
-      #ffffff
-    )
+    drop-shadow(4px 0 0 #ffffff)
+    drop-shadow(-4px 0 0 #ffffff)
+    drop-shadow(0 4px 0 #ffffff)
+    drop-shadow(0 -4px 0 #ffffff)
     drop-shadow(
       0 0 14px
-      rgba(
-        255,
-        255,
-        255,
-        0.95
-      )
+      rgba(255, 255, 255, 0.95)
     );
 }
 
 
-/* ==============================
-   LEAVE MESSAGE
-============================== */
-
-.leave-message {
-  width:
-    min(
-      520px,
-      82vw
-    );
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  gap: 8px;
-
-  margin-top: 2px;
-}
-
-.leave-message-label {
-  color: #fffaf0;
-
-  font-family:
-    "Coming Soon",
-    cursive;
-
-  font-size: 16px;
-}
-
-.leave-message-input {
-  width: 100%;
-  min-height: 72px;
-
-  padding: 12px 16px;
-
-  resize: none;
-
-  border:
-    1.5px solid
-    rgba(
-      255,
-      250,
-      240,
-      0.9
-    );
-
-  border-radius: 18px;
-
-  background:
-    rgba(
-      255,
-      250,
-      240,
-      0.9
-    );
-
-  color: #30507E;
-
-  font-family:
-    "Coming Soon",
-    cursive;
-
-  font-size: 16px;
-
-  line-height: 1.5;
-
-  outline: none;
-}
-
-.leave-message-input:focus {
-  background: #fffaf0;
-
-  border-color: #ffffff;
-}
-
-.leave-message-hint {
-  margin: 0;
-
-  color:
-    rgba(
-      255,
-      250,
-      240,
-      0.7
-    );
-
-  font-family:
-    "Coming Soon",
-    cursive;
-
-  font-size: 12px;
-}
-
-
-/* ==============================
-   LEAVE ACTIONS
-============================== */
+/* ==================================================
+   FOOD MENU BUTTONS
+================================================== */
 
 .leave-actions {
   display: flex;
@@ -1569,10 +1214,7 @@ body {
 
   border-radius: 999px;
 
-  font-family:
-    "Coming Soon",
-    cursive;
-
+  font-family: "Coming Soon", cursive;
   font-size: 17px;
 
   white-space: nowrap;
@@ -1590,36 +1232,29 @@ body {
 
   border:
     1.5px solid
-    rgba(
-      255,
-      250,
-      240,
-      0.85
-    );
+    rgba(255, 250, 240, 0.85);
 
   background:
-    rgba(
-      5,
-      19,
-      77,
-      0.35
-    );
+    rgba(5, 19, 77, 0.35);
 }
 
 .order-button {
-  border:
-    1.5px solid
-    #fffaf0;
+  border: 1.5px solid #fffaf0;
 
   background: #fffaf0;
 
-  color: #30507E;
+  color: #30507e;
 }
+
+
+/* ORDER DISABLED UNTIL ITEM SELECTED */
 
 .order-button:disabled {
   opacity: 0.35;
 
   cursor: default;
+
+  pointer-events: none;
 }
 
 .order-button:not(:disabled) {
@@ -1628,14 +1263,177 @@ body {
 
 .order-button:not(:disabled):hover,
 .later-button:hover {
-  transform:
-    translateY(-2px);
+  transform: translateY(-2px);
 }
 
 
-/* ==============================
+/* ==================================================
+   MESSAGE WRITER
+   Opened by bottle box
+================================================== */
+
+.message-popup {
+  z-index: 1350;
+
+  display: none;
+}
+
+.message-panel {
+  width: min(560px, 86vw);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 26px;
+
+  border:
+    1.5px solid
+    rgba(255, 250, 240, 0.28);
+
+  border-radius: 24px;
+
+  background:
+    rgba(48, 80, 126, 0.28);
+
+  box-shadow:
+    0 16px 40px
+    rgba(5, 19, 77, 0.14);
+}
+
+.message-popup-label {
+  color: #fffaf0;
+
+  font-family: "Coming Soon", cursive;
+  font-size: 20px;
+
+  text-align: center;
+}
+
+.message-popup-input {
+  width: 100%;
+  min-height: 130px;
+
+  padding: 16px 18px;
+
+  resize: none;
+
+  border:
+    1.5px solid
+    rgba(255, 250, 240, 0.9);
+
+  border-radius: 18px;
+
+  background:
+    rgba(255, 250, 240, 0.94);
+
+  color: #30507e;
+
+  font-family: "Coming Soon", cursive;
+  font-size: 16px;
+
+  line-height: 1.5;
+
+  outline: none;
+}
+
+.message-popup-input::placeholder {
+  color:
+    rgba(48, 80, 126, 0.48);
+}
+
+.message-popup-input:focus {
+  background: #fffaf0;
+
+  border-color: #ffffff;
+}
+
+.message-popup-hint {
+  margin: 0;
+
+  color:
+    rgba(255, 250, 240, 0.75);
+
+  font-family: "Coming Soon", cursive;
+  font-size: 12px;
+
+  text-align: center;
+}
+
+.message-popup-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+
+  margin-top: 8px;
+}
+
+.message-back-button,
+.message-send-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 20px;
+
+  border-radius: 999px;
+
+  font-family: "Coming Soon", cursive;
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.message-back-button {
+  color: #fffaf0;
+
+  border: 1.5px solid #fffaf0;
+
+  background:
+    rgba(5, 19, 77, 0.35);
+}
+
+.message-send-button {
+  border: 1.5px solid #fffaf0;
+
+  background: #fffaf0;
+
+  color: #30507e;
+}
+
+
+/* SEND DISABLED UNTIL TEXT EXISTS */
+
+.message-send-button:disabled {
+  opacity: 0.35;
+
+  cursor: default;
+
+  pointer-events: none;
+}
+
+.message-send-button:not(:disabled) {
+  opacity: 1;
+}
+
+.message-send-button:not(:disabled):hover,
+.message-back-button:hover {
+  transform: translateY(-2px);
+}
+
+
+/* ==================================================
    ANIMATIONS
-============================== */
+================================================== */
 
 @keyframes popupEnter {
 
@@ -1730,11 +1528,26 @@ body {
 }
 
 
-/* ==============================
+/* ==================================================
    MOBILE
-============================== */
+================================================== */
 
 @media (max-width: 700px) {
+
+  .page {
+    padding: 12px;
+  }
+
+  .scene {
+    width: min(
+      calc(100vw - 24px),
+      calc((100vh - 24px) * 16 / 9)
+    );
+
+    max-height:
+      calc(100vh - 24px);
+  }
+
 
   .digital-clock {
     top: 14px;
@@ -1745,43 +1558,57 @@ body {
     font-size: 15px;
   }
 
+
   .sound-toggle {
     top: 14px;
     right: 14px;
   }
+
 
   .menu-toggle {
     top: 74px;
     right: 14px;
   }
 
+
   .slide-menu {
     top: 145px;
     right: 14px;
   }
 
+
   .tv-popup-content {
     width: 92vw;
   }
+
 
   .tv-stage {
     width: 86vw;
   }
 
+
   .shelf-stage {
     width: 96vw;
   }
+
 
   .menu-items {
     width: 74%;
   }
 
+
+  .message-panel {
+    width: 90vw;
+
+    padding: 20px;
+  }
+
 }
 
 
-/* ==============================
+/* ==================================================
    REDUCED MOTION
-============================== */
+================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 

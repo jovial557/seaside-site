@@ -11,6 +11,7 @@
 
   <title>Space Bunny's Seaside Shop</title>
 
+  <!-- Google Font -->
   <link
     rel="preconnect"
     href="https://fonts.googleapis.com"
@@ -41,9 +42,10 @@
 
 <body>
 
-  <!-- =========================
+
+  <!-- ==================================================
        MAIN SITE
-  ========================== -->
+  =================================================== -->
 
   <main class="page">
 
@@ -58,10 +60,12 @@
         id="backgroundBgm"
         loop
       >
+
         <source
           src="assets/background-bgm.mp3"
           type="audio/mpeg"
         />
+
       </audio>
 
 
@@ -102,7 +106,9 @@
           ♪
         </span>
 
-        <p class="sound-hint">it's better with sound!</p>
+        <p class="sound-hint">
+          it's better with sound!
+        </p>
 
       </button>
 
@@ -118,10 +124,12 @@
         aria-label="Open links menu"
         aria-expanded="false"
       >
+
         <img
           src="assets/menu-icon.png"
           alt=""
         />
+
       </button>
 
 
@@ -177,14 +185,16 @@
       </video>
 
 
-      <!-- =========================
+      <!-- ==================================================
            INTERACTIVE OBJECTS
-      ========================== -->
+      =================================================== -->
 
       <div class="interactive-layer">
 
 
-        <!-- Shop Sign -->
+        <!-- =========================
+             SHOP SIGN
+        ========================== -->
 
         <button
           class="interactive-object shop-sign"
@@ -192,44 +202,78 @@
           type="button"
           aria-label="About the seaside shop"
         >
+
           <img
             src="assets/shop-sign.svg"
             alt=""
           />
+
         </button>
 
 
-        <!-- Cooler -->
+        <!-- =========================
+             COOLER
+             Opens food menu
+        ========================== -->
 
         <button
           class="interactive-object cooler"
           id="coolerButton"
           type="button"
-          aria-label="Open your gift tray again"
+          aria-label="Order something for the next visitor"
         >
+
           <img
             src="assets/cooler.svg"
             alt=""
           />
+
         </button>
 
 
-        <!-- Message Bottle Box -->
+        <!-- =========================
+             FOR YOU
+             Opens received gift
+        ========================== -->
+
+        <button
+          class="interactive-object for-you"
+          id="forYouButton"
+          type="button"
+          aria-label="See what they left for you"
+        >
+
+          <img
+            src="assets/for-you.svg"
+            alt=""
+          />
+
+        </button>
+
+
+        <!-- =========================
+             MESSAGE BOTTLE BOX
+             Opens message writer
+        ========================== -->
 
         <button
           class="interactive-object bottle-box"
           id="messageBottleBoxButton"
           type="button"
-          aria-label="Leave something for the next visitor"
+          aria-label="Leave a message for the next wanderer"
         >
+
           <img
             src="assets/message-bottle-box.svg"
             alt=""
           />
+
         </button>
 
 
-        <!-- TV -->
+        <!-- =========================
+             TV
+        ========================== -->
 
         <button
           class="interactive-object tv-object"
@@ -237,10 +281,12 @@
           type="button"
           aria-label="Open the seaside TV"
         >
+
           <img
             src="assets/tv.svg"
             alt=""
           />
+
         </button>
 
 
@@ -252,9 +298,9 @@
 
 
 
-  <!-- =========================
+  <!-- ==================================================
        INTRO POPUP
-  ========================== -->
+  =================================================== -->
 
   <div
     class="welcome-popup"
@@ -271,16 +317,19 @@
           alt="You found the seaside shop. Someone was here before you and left something on the tray."
         />
 
+
         <button
           class="popup-action"
           id="seeGiftButton"
           type="button"
           aria-label="See what they left"
         >
+
           <img
             src="assets/see-what-they-left-button.svg"
             alt=""
           />
+
         </button>
 
       </div>
@@ -291,66 +340,74 @@
 
 
 
-  <!-- =========================
-     GIFT TRAY
-========================== -->
+  <!-- ==================================================
+       RECEIVED GIFT TRAY
+  =================================================== -->
 
-<div
-  class="gift-popup"
-  id="giftPopup"
->
+  <div
+    class="gift-popup"
+    id="giftPopup"
+  >
 
-  <div class="gift-popup-content">
+    <div class="gift-popup-content">
 
-    <div class="gift-stage">
 
-      <img
-        class="gift-tray"
-        src="assets/tray.png"
-        alt="Wooden tray"
-      />
+      <div class="gift-stage">
 
-      <img
-        class="gift-item"
-        id="giftItem"
-        src="assets/stingray-omelette.png"
-        alt="Stingray omelette"
-      />
+        <img
+          class="gift-tray"
+          src="assets/tray.png"
+          alt="Wooden tray"
+        />
+
+
+        <img
+          class="gift-item"
+          id="giftItem"
+          src="assets/stingray-omelette.png"
+          alt="Stingray omelette"
+        />
+
+
+        <!-- MESSAGE LEFT WITH GIFT -->
+
+        <button
+          class="gift-note-bottle"
+          id="giftNoteBottle"
+          type="button"
+          aria-label="Read the message left for you"
+        >
+
+          <img
+            src="assets/message-in-bottle.png"
+            alt=""
+          />
+
+        </button>
+
+      </div>
+
+
+      <!-- EXIT -->
 
       <button
-        class="gift-note-bottle"
-        id="giftNoteBottle"
+        class="gift-back-button"
+        id="giftBackButton"
         type="button"
-        aria-label="Read the message left for you"
       >
-        <img
-          src="assets/message-in-bottle.png"
-          alt=""
-        />
+        exit
       </button>
+
 
     </div>
 
-
-    <!-- GO BACK -->
-
-    <button
-      class="gift-back-button"
-      id="giftBackButton"
-      type="button"
-    >
-      exit
-    </button>
-
   </div>
 
-</div>
 
 
-
-  <!-- =========================
-       MESSAGE NOTE
-  ========================== -->
+  <!-- ==================================================
+       RECEIVED MESSAGE NOTE
+  =================================================== -->
 
   <div
     class="note-popup"
@@ -359,13 +416,16 @@
 
     <div class="note-card">
 
+
       <img
         class="note-paper"
         src="assets/paper.png"
         alt=""
       />
 
+
       <div class="note-content">
+
 
         <p
           class="note-message"
@@ -374,11 +434,14 @@
           I hope something unexpectedly nice happens to you today.
         </p>
 
+
         <p class="note-signature">
           — a wanderer
         </p>
 
+
         <div class="note-actions">
+
 
           <button
             class="note-button"
@@ -388,6 +451,7 @@
             wander around
           </button>
 
+
           <button
             class="note-button"
             id="leaveOneButton"
@@ -395,6 +459,7 @@
           >
             leave one too
           </button>
+
 
         </div>
 
@@ -406,9 +471,9 @@
 
 
 
-  <!-- =========================
+  <!-- ==================================================
        ABOUT SHOP
-  ========================== -->
+  =================================================== -->
 
   <div
     class="about-popup"
@@ -417,11 +482,13 @@
 
     <div class="about-card">
 
+
       <img
         class="about-board"
         src="assets/about-shop.png"
         alt="About the seaside shop"
       />
+
 
       <button
         class="about-back-button"
@@ -431,15 +498,16 @@
         go back
       </button>
 
+
     </div>
 
   </div>
 
 
 
-  <!-- =========================
+  <!-- ==================================================
        TV POPUP
-  ========================== -->
+  =================================================== -->
 
   <div
     class="tv-popup"
@@ -449,9 +517,10 @@
     <div class="tv-popup-content">
 
 
-      <!-- TV -->
+      <!-- TV IMAGE -->
 
       <div class="tv-stage">
+
 
         <img
           class="tv-screen-image"
@@ -479,9 +548,10 @@
       </div>
 
 
-      <!-- URL Controls -->
+      <!-- TV URL CONTROLS -->
 
       <div class="tv-controls">
+
 
         <label
           class="tv-url-label"
@@ -493,6 +563,7 @@
 
         <div class="tv-url-row">
 
+
           <input
             class="tv-url-input"
             id="tvUrlInput"
@@ -501,6 +572,7 @@
             autocomplete="off"
           />
 
+
           <button
             class="tv-play-button"
             id="tvPlayPauseButton"
@@ -508,6 +580,7 @@
           >
             play
           </button>
+
 
         </div>
 
@@ -527,6 +600,7 @@
           go back
         </button>
 
+
       </div>
 
     </div>
@@ -535,9 +609,10 @@
 
 
 
-  <!-- =========================
-       LEAVE SOMETHING
-  ========================== -->
+  <!-- ==================================================
+       FOOD ORDER MENU
+       COOLER OPENS THIS
+  =================================================== -->
 
   <div
     class="leave-popup"
@@ -547,9 +622,12 @@
     <div class="leave-panel">
 
 
-      <!-- MENU BOARD -->
+      <!-- =========================
+           MENU BOARD
+      ========================== -->
 
       <div class="shelf-stage">
+
 
         <img
           class="shelves-image"
@@ -558,102 +636,166 @@
         />
 
 
+        <!-- =========================
+             MENU ITEMS
+        ========================== -->
+
         <div class="menu-items">
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/blueberry-pie.png"
               alt="Blueberry pie"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/takoyaki.png"
               alt="Takoyaki"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/stingray-omelette.png"
               alt="Stingray omelette"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/icecream.png"
               alt="Ice cream"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/melon-pan-turtle.png"
               alt="Turtle melon pan"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/goldfish-bag.png"
               alt="Goldfish bag"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/seashell-gratin.png"
               alt="Seashell gratin"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/taiyaki.png"
               alt="Taiyaki"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/ocean-bento.png"
               alt="Ocean bento"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/mochi.png"
               alt="Mochi"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/melon-parfait.png"
               alt="Melon parfait"
             />
+
           </button>
 
 
-          <button class="shelf-item" type="button">
+          <button
+            class="shelf-item"
+            type="button"
+          >
+
             <img
               src="assets/marine-gummies.png"
               alt="Marine gummies"
             />
+
           </button>
 
 
@@ -662,36 +804,12 @@
       </div>
 
 
-
-      <!-- LEAVE MESSAGE -->
-
-      <div class="leave-message">
-
-        <label
-          class="leave-message-label"
-          for="leaveMessageInput"
-        >
-          Leave a note for the next wanderer.
-        </label>
-
-        <textarea
-          id="leaveMessageInput"
-          class="leave-message-input"
-          maxlength="180"
-          placeholder="Write something for the next wanderer..."
-        ></textarea>
-
-        <p class="leave-message-hint">
-          Your name won't be shown — it'll just say “a wanderer.”
-        </p>
-
-      </div>
-
-
-
-      <!-- LEAVE ACTIONS -->
+      <!-- =========================
+           FOOD MENU ACTIONS
+      ========================== -->
 
       <div class="leave-actions">
+
 
         <button
           class="later-button"
@@ -700,6 +818,7 @@
         >
           I'll do it later
         </button>
+
 
         <button
           class="order-button"
@@ -710,8 +829,73 @@
           order!
         </button>
 
+
       </div>
 
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ==================================================
+       LEAVE A MESSAGE
+       MESSAGE BOTTLE BOX OPENS THIS
+  =================================================== -->
+
+  <div
+    class="message-popup"
+    id="messagePopup"
+  >
+
+    <div class="message-panel">
+
+
+      <label
+        class="message-popup-label"
+        for="messageInput"
+      >
+        Leave a note for the next wanderer.
+      </label>
+
+
+      <textarea
+        id="messageInput"
+        class="message-popup-input"
+        maxlength="180"
+        placeholder="Write something for the next wanderer..."
+      ></textarea>
+
+
+      <p class="message-popup-hint">
+        Your name won't be shown — it'll just say “a wanderer.”
+      </p>
+
+
+      <div class="message-popup-actions">
+
+
+        <button
+          class="message-back-button"
+          id="messageBackButton"
+          type="button"
+        >
+          I'll do it later
+        </button>
+
+
+        <button
+          class="message-send-button"
+          id="messageSendButton"
+          type="button"
+          disabled
+        >
+          send
+        </button>
+
+
+      </div>
 
     </div>
 
